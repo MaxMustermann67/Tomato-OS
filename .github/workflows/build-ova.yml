@@ -19,7 +19,7 @@ jobs:
       - name: Install image build tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y debootstrap parted qemu-utils grub-pc-bin grub2-common e2fsprogs
+          sudo apt-get install -y debootstrap parted qemu-utils grub-pc-bin grub2-common e2fsprogs qemu-system-x86
       - name: Check source syntax
         run: |
           bash -n scripts/build-ova.sh guest/configure.sh
@@ -32,6 +32,29 @@ jobs:
           tar -tf dist/Tomato-OS.ova
           cd dist
           sha256sum -c Tomato-OS.ova.sha256
+      - name: Boot smoke test with QEMU
+        run: |
+          set -e
+          qemu-system-x86_64 -m 2048 -accel tcg -snapshot -display none \
+            -serial file:dist/serial.log -monitor none \
+            -drive file=dist/Tomato-OS-disk1.vmdk,if=ide,format=vmdk \
+            -netdev user,id=net0 -device e1000,netdev=net0 \
+            >dist/qemu.log 2>&1 &
+          qemu_pid=$!
+          trap 'kill "$qemu_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 90); do
+            if grep -q 'tomato-os login:' dist/serial.log; then
+              echo "Tomato OS reached a login prompt."
+              exit 0
+            fi
+            if ! kill -0 "$qemu_pid" 2>/dev/null; then
+              cat dist/qemu.log
+              exit 1
+            fi
+            sleep 5
+          done
+          tail -100 dist/serial.log
+          exit 1
       - name: Upload OVA
         uses: actions/upload-artifact@v4
         with:
