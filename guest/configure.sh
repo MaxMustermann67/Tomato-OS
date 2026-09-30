@@ -42,6 +42,9 @@ apt-get update
 apt-get install -y --no-install-recommends brave-browser
 update-alternatives --install /usr/bin/x-www-browser x-www-browser /usr/bin/brave-browser 200
 install -Dm755 /root/tomato-build/firstboot.py /usr/local/bin/tomato-firstboot
+install -Dm755 /root/tomato-build/tomato-desktop-init.sh /usr/local/bin/tomato-desktop-init
+install -Dm644 /root/tomato-build/tomato-desktop-init.desktop /etc/xdg/autostart/tomato-desktop-init.desktop
+install -Dm644 /root/tomato-build/mimeapps.list /etc/xdg/mimeapps.list
 install -Dm755 /root/tomato-build/finish-setup.py /usr/local/sbin/tomato-finish-setup
 install -Dm644 /root/tomato-build/firstboot.desktop /etc/xdg/autostart/tomato-firstboot.desktop
 install -Dm644 /root/tomato-build/wallpaper.svg /usr/share/backgrounds/tomato.svg

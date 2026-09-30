@@ -23,6 +23,7 @@ jobs:
       - name: Check source syntax
         run: |
           bash -n scripts/build-ova.sh guest/configure.sh
+          sh -n guest/tomato-desktop-init.sh
           python3 -m py_compile scripts/make-ovf.py guest/firstboot.py guest/finish-setup.py
       - name: Build bootable appliance
         run: |
