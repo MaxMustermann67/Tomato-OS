@@ -1,0 +1,11 @@
+[Unit]
+Description=Check for Tomaten OS desktop updates
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=30min
+RandomizedDelaySec=5min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

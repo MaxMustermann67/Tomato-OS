@@ -1,0 +1,8 @@
+[Unit]
+Description=Update Tomaten OS desktop from GitHub
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/tomaten-source-update

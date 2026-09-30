@@ -28,7 +28,7 @@ EOF
 apt-get update
 apt-get install -y --no-install-recommends \
   systemd-sysv linux-image-amd64 grub-pc initramfs-tools \
-  locales sudo ca-certificates curl gnupg \
+  locales sudo ca-certificates curl gnupg git \
   xorg xfce4 xfce4-terminal xfce4-whiskermenu-plugin thunar mousepad \
   lightdm lightdm-gtk-greeter network-manager network-manager-gnome firefox-esr \
   xfce4-settings xfce4-power-manager librsvg2-common \
@@ -96,5 +96,11 @@ GRUB_CMDLINE_LINUX=""
 GRUB_TERMINAL="console serial"
 GRUB_SERIAL_COMMAND="serial --speed=115200"
 EOF
-systemctl enable NetworkManager lightdm tomaten-update.timer
+install -Dm755 /root/tomato-build/tomaten-source-update.sh /usr/local/sbin/tomaten-source-update
+install -Dm644 /root/tomato-build/tomaten-source-update.service /etc/systemd/system/tomaten-source-update.service
+install -Dm644 /root/tomato-build/tomaten-source-update.timer /etc/systemd/system/tomaten-source-update.timer
+install -d /var/lib/tomaten-os
+git clone --depth 1 --branch main https://github.com/MaxMustermann67/Tomato-OS.git /var/lib/tomaten-os/source
+git -C /var/lib/tomaten-os/source rev-parse HEAD > /var/lib/tomaten-os/installed-commit
+systemctl enable NetworkManager lightdm tomaten-update.timer tomaten-source-update.timer
 apt-get clean

@@ -24,7 +24,7 @@ jobs:
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends debootstrap parted qemu-utils grub-pc-bin grub2-common e2fsprogs qemu-system-x86 xvfb xauth python3-gi gir1.2-gtk-3.0
       - name: Check source syntax
         run: |
-          bash -n scripts/build-ova.sh guest/configure.sh
+          bash -n scripts/build-ova.sh scripts/bootstrap-in-place.sh guest/configure.sh guest/tomaten-apply.sh guest/tomaten-source-update.sh
           sh -n guest/tomato-desktop-init.sh
           python3 -m py_compile scripts/make-ovf.py guest/firstboot.py guest/finish-setup.py guest/tomaten-shell.py
           sh -n guest/tomaten-session guest/tomaten-update.sh
