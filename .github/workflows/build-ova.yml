@@ -58,6 +58,8 @@ jobs:
           done
           tail -100 dist/serial.log
           exit 1
+      - name: Add Windows installer
+        run: cp windows/Tomato-OS-installieren.cmd dist/
       - name: Upload OVA
         uses: actions/upload-artifact@v4
         with:
@@ -65,4 +67,5 @@ jobs:
           path: |
             dist/Tomato-OS.ova
             dist/Tomato-OS.ova.sha256
+            dist/Tomato-OS-installieren.cmd
           retention-days: 14

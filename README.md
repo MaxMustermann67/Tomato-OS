@@ -6,9 +6,10 @@ Tomato OS ist ein Debian-basiertes Desktop-System für VirtualBox auf x86-64. Di
 
 1. Öffne unter **Actions** den neuesten erfolgreichen Lauf von **Build Tomato OS OVA**.
 2. Lade das Artefakt **Tomato-OS-OVA** herunter und entpacke die ZIP-Datei.
-3. Öffne VirtualBox unter Windows und wähle **Datei → Appliance importieren**.
-4. Wähle **Tomato-OS.ova**. Empfohlen: 4 GB RAM und 2 CPU-Kerne. Das virtuelle Laufwerk hat maximal 16 GB und wächst nach Bedarf.
-5. Starte Tomato OS. Beim ersten Start legst du deinen Benutzernamen und dein Passwort fest. Danach startet das System neu und zeigt die Anmeldung.
+3. Starte unter Windows per Doppelklick **Tomato-OS-installieren.cmd**. Das Skript importiert die OVA mit VBoxManage, aktiviert NAT-Netzwerk und startet die VM. VirtualBox muss auf dem PC installiert sein.
+4. Beim ersten Start legst du deinen Benutzernamen und dein Passwort fest. Danach startet das System neu und zeigt die Anmeldung.
+
+Falls das Skript nicht ausgeführt werden kann, öffne VirtualBox und wähle **Datei → Appliance importieren → Tomato-OS.ova**. Die VM ist für 4 GB RAM und 2 CPU-Kerne ausgelegt; die virtuelle Festplatte hat maximal 16 GB.
 
 VirtualBox sollte NAT als Netzwerkadapter verwenden. Brave und Firefox ESR findest du im Anwendungsmenü. Die OVA enthält absichtlich kein vorgegebenes dauerhaftes Benutzerpasswort.
 
