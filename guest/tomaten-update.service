@@ -1,0 +1,9 @@
+[Unit]
+Description=Tomaten OS automatic package updates
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+Environment=DEBIAN_FRONTEND=noninteractive
+ExecStart=/usr/local/sbin/tomaten-update

@@ -1,14 +1,8 @@
-@define-color theme_selected_bg_color #d9473e;
+@define-color theme_selected_bg_color #e62f38;
 @define-color theme_selected_fg_color #ffffff;
-#XfcePanelWindow {
-  background-color: #172824;
-  color: #f8f5ee;
-}
-#XfcePanelWindow button {
-  border-radius: 9px;
-  margin: 3px;
-}
+window { color: #f7f7f7; }
 button.suggested-action {
-  background: #d9473e;
-  color: white;
+  background: #e62f38;
+  color: #ffffff;
 }
+selection { background-color: #e62f38; }

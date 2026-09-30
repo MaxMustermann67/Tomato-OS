@@ -13,7 +13,7 @@ SUDOERS = Path("/etc/sudoers.d/tomato-firstboot")
 
 def main():
     if os.geteuid() != 0 or os.environ.get("SUDO_USER") != "tomato-setup":
-        raise ValueError("Nur die Tomato-Ersteinrichtung darf ein Konto anlegen.")
+        raise ValueError("Nur die Tomaten-OS-Ersteinrichtung darf ein Konto anlegen.")
     if not AUTLOGIN.exists():
         raise ValueError("Die Ersteinrichtung ist bereits abgeschlossen.")
     data = json.load(sys.stdin)
@@ -21,8 +21,8 @@ def main():
     password = data.get("password", "")
     if not isinstance(name, str) or not re.fullmatch(r"[a-z][a-z0-9_-]{2,31}", name):
         raise ValueError("Benutzername: 3–32 Kleinbuchstaben, Ziffern, _ oder -.")
-    if not isinstance(password, str) or len(password) < 8 or "\n" in password or "\r" in password:
-        raise ValueError("Das Passwort braucht mindestens 8 Zeichen.")
+    if not isinstance(password, str) or len(password) < 1 or "\n" in password or "\r" in password:
+        raise ValueError("Bitte ein Passwort eingeben.")
     try:
         pwd.getpwnam(name)
     except KeyError:

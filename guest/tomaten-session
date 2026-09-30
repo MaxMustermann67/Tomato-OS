@@ -1,0 +1,15 @@
+#!/bin/sh
+# Start a small XFCE-based session with the Tomaten OS shell.
+export XDG_CURRENT_DESKTOP=XFCE
+export DESKTOP_SESSION=tomaten
+xfsettingsd &
+xfwm4 &
+xfdesktop &
+nm-applet &
+xfce4-power-manager &
+/usr/local/bin/tomato-desktop-init &
+if [ "$(id -un)" = "tomato-setup" ]; then
+  /usr/local/bin/tomaten-shell &
+  exec /usr/local/bin/tomato-firstboot
+fi
+exec /usr/local/bin/tomaten-shell

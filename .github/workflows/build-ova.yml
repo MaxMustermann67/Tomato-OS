@@ -1,4 +1,4 @@
-name: Build Tomato OS OVA
+name: Build Tomaten OS OVA
 
 on:
   push:
@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: '17 4 * * 1'
 
 permissions:
   contents: read
@@ -19,35 +21,44 @@ jobs:
       - name: Install image build tools
         run: |
           sudo apt-get update
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends debootstrap parted qemu-utils grub-pc-bin grub2-common e2fsprogs qemu-system-x86
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends debootstrap parted qemu-utils grub-pc-bin grub2-common e2fsprogs qemu-system-x86 xvfb xauth python3-gi gir1.2-gtk-3.0
       - name: Check source syntax
         run: |
           bash -n scripts/build-ova.sh guest/configure.sh
           sh -n guest/tomato-desktop-init.sh
-          python3 -m py_compile scripts/make-ovf.py guest/firstboot.py guest/finish-setup.py
+          python3 -m py_compile scripts/make-ovf.py guest/firstboot.py guest/finish-setup.py guest/tomaten-shell.py
+          sh -n guest/tomaten-session guest/tomaten-update.sh
+          python3 -c "import xml.etree.ElementTree as ET; ET.parse('guest/wallpaper.svg')"
+      - name: Launch desktop shell under Xvfb
+        run: |
+          set +e
+          timeout 8s xvfb-run -a /usr/bin/python3 guest/tomaten-shell.py
+          result=$?
+          set -e
+          test "$result" -eq 124
       - name: Build bootable appliance
         run: |
           sudo bash scripts/build-ova.sh
           sudo chown -R "$USER:$USER" dist
       - name: Validate package
         run: |
-          qemu-img info dist/Tomato-OS-disk1.vmdk
-          tar -tf dist/Tomato-OS.ova
+          qemu-img info dist/Tomaten-OS-disk1.vmdk
+          tar -tf dist/Tomaten-OS.ova
           cd dist
-          sha256sum -c Tomato-OS.ova.sha256
+          sha256sum -c Tomaten-OS.ova.sha256
       - name: Boot smoke test with QEMU
         run: |
           set -e
           qemu-system-x86_64 -m 2048 -accel tcg -snapshot -display none \
             -serial file:dist/serial.log -monitor none \
-            -drive file=dist/Tomato-OS-disk1.vmdk,if=ide,format=vmdk \
+            -drive file=dist/Tomaten-OS-disk1.vmdk,if=ide,format=vmdk \
             -netdev user,id=net0 -device e1000,netdev=net0 \
             >dist/qemu.log 2>&1 &
           qemu_pid=$!
           trap 'kill "$qemu_pid" 2>/dev/null || true' EXIT
           for attempt in $(seq 1 90); do
-            if grep -q 'tomato-os login:' dist/serial.log; then
-              echo "Tomato OS reached a login prompt."
+            if grep -q 'tomaten-os login:' dist/serial.log; then
+              echo "Tomaten OS reached a login prompt."
               exit 0
             fi
             if ! kill -0 "$qemu_pid" 2>/dev/null; then
@@ -59,13 +70,13 @@ jobs:
           tail -100 dist/serial.log
           exit 1
       - name: Add Windows installer
-        run: cp windows/Tomato-OS-installieren.cmd dist/
+        run: cp windows/Tomaten-OS-installieren.cmd dist/
       - name: Upload OVA
         uses: actions/upload-artifact@v4
         with:
-          name: Tomato-OS-OVA
+          name: Tomaten-OS-OVA
           path: |
-            dist/Tomato-OS.ova
-            dist/Tomato-OS.ova.sha256
-            dist/Tomato-OS-installieren.cmd
+            dist/Tomaten-OS.ova
+            dist/Tomaten-OS.ova.sha256
+            dist/Tomaten-OS-installieren.cmd
           retention-days: 14
