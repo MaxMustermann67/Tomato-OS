@@ -25,7 +25,9 @@ jobs:
           bash -n scripts/build-ova.sh guest/configure.sh
           python3 -m py_compile scripts/make-ovf.py guest/firstboot.py guest/finish-setup.py
       - name: Build bootable appliance
-        run: sudo bash scripts/build-ova.sh
+        run: |
+          sudo bash scripts/build-ova.sh
+          sudo chown -R "$USER:$USER" dist
       - name: Validate package
         run: |
           qemu-img info dist/Tomato-OS-disk1.vmdk
