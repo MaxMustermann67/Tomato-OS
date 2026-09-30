@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1">
+      <stop stop-color="#102521"/>
+      <stop offset="1" stop-color="#274b3c"/>
+    </linearGradient>
+    <radialGradient id="tomato">
+      <stop stop-color="#fa7560"/>
+      <stop offset="1" stop-color="#ce3f3b"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <circle cx="960" cy="460" r="145" fill="url(#tomato)"/>
+  <path d="M960 337 C931 300 917 298 914 338 C879 320 850 333 885 359 C860 378 878 398 915 378 C939 411 958 401 960 373 C984 404 1012 405 1008 373 C1053 391 1075 368 1037 353 C1061 329 1039 314 1003 338 C995 302 973 301 960 337 Z" fill="#57a86c"/>
+  <text x="960" y="710" text-anchor="middle" fill="#fff9ef" font-family="sans-serif" font-size="78" font-weight="700">Tomato OS</text>
+  <text x="960" y="770" text-anchor="middle" fill="#c6e0d3" font-family="sans-serif" font-size="26">Einfach. Schnell. Dein System.</text>
+</svg>

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Tomato OS Ersteinrichtung
+Exec=/usr/local/bin/tomato-firstboot
+Terminal=false
+OnlyShowIn=XFCE;
+X-GNOME-Autostart-enabled=true

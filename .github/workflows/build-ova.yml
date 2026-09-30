@@ -1,0 +1,42 @@
+name: Build Tomato OS OVA
+
+on:
+  push:
+    branches: [main, feature/bootable-ova]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install image build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y debootstrap parted qemu-utils grub-pc-bin grub2-common e2fsprogs
+      - name: Check source syntax
+        run: |
+          bash -n scripts/build-ova.sh guest/configure.sh
+          python3 -m py_compile scripts/make-ovf.py guest/firstboot.py guest/finish-setup.py
+      - name: Build bootable appliance
+        run: sudo bash scripts/build-ova.sh
+      - name: Validate package
+        run: |
+          qemu-img info dist/Tomato-OS-disk1.vmdk
+          tar -tf dist/Tomato-OS.ova
+          cd dist
+          sha256sum -c Tomato-OS.ova.sha256
+      - name: Upload OVA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tomato-OS-OVA
+          path: |
+            dist/Tomato-OS.ova
+            dist/Tomato-OS.ova.sha256
+          retention-days: 14
