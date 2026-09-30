@@ -19,7 +19,6 @@ apt-get install -y --no-install-recommends \
   xorg xfce4 xfce4-terminal xfce4-whiskermenu-plugin thunar mousepad \
   lightdm lightdm-gtk-greeter network-manager firefox-esr \
   python3 python3-gi gir1.2-gtk-3.0 \
-  virtualbox-guest-utils virtualbox-guest-x11 \
   fonts-noto-core fonts-noto-color-emoji adwaita-icon-theme \
   xdg-utils dbus-x11 unattended-upgrades
 echo 'de_DE.UTF-8 UTF-8' > /etc/locale.gen
