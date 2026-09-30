@@ -1,0 +1,11 @@
+[Unit]
+Description=Check Tomaten OS updates regularly
+
+[Timer]
+OnBootSec=10min
+OnUnitActiveSec=12h
+RandomizedDelaySec=20min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

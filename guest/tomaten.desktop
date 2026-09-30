@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Tomaten OS
+Comment=Tomaten OS Desktop
+Exec=/usr/local/bin/tomaten-session
+TryExec=/usr/local/bin/tomaten-session
+Type=Application
+DesktopNames=XFCE
