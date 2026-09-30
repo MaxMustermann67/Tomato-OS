@@ -132,7 +132,9 @@ class TomatenShell:
         row.pack_start(brand, False, False, 0)
         spacer = Gtk.Box()
         row.pack_start(spacer, True, True, 0)
-        row.pack_start(button("◆", "Netzwerk", self.open_control, True), False, False, 0)
+        row.pack_start(button("◆", "Netzwerk",
+                              lambda: launch(["nm-connection-editor"]), True),
+                       False, False, 0)
         self.clock = Gtk.Label()
         row.pack_start(self.clock, False, False, 12)
         row.pack_start(button("⏻", "Abmelden oder Ausschalten", self.power_menu, True),

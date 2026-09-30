@@ -7,6 +7,7 @@ deb http://security.debian.org/debian-security trixie-security main contrib non-
 deb http://deb.debian.org/debian trixie-updates main contrib non-free non-free-firmware
 EOF
 echo tomaten-os > /etc/hostname
+rm -f /etc/os-release
 cat > /etc/os-release <<'EOF'
 NAME="Tomaten OS"
 PRETTY_NAME="Tomaten OS 1.0"
