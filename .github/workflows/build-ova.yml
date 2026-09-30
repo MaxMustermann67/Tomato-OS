@@ -19,7 +19,7 @@ jobs:
       - name: Install image build tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y debootstrap parted qemu-utils grub-pc-bin grub2-common e2fsprogs qemu-system-x86
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends debootstrap parted qemu-utils grub-pc-bin grub2-common e2fsprogs qemu-system-x86
       - name: Check source syntax
         run: |
           bash -n scripts/build-ova.sh guest/configure.sh
