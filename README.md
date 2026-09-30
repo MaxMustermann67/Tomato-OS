@@ -15,9 +15,16 @@ VirtualBox muss bereits installiert sein. Falls die Startdatei nicht ausgeführt
 
 ## Updates
 
-Ein Systemd-Timer prüft nach dem Start und danach etwa alle zwölf Stunden Debian- und Brave-Pakete. Sicherheitsupdates werden zusätzlich über Debian unattended-upgrades geprüft. Ein erforderlicher Neustart erfolgt nicht ohne den Benutzer.
+Ein Systemd-Timer prüft nach dem Start und danach etwa alle zwölf Stunden Debian- und Brave-Pakete. Ein zweiter Timer holt etwa alle 30 Minuten Änderungen der Tomaten-Oberfläche vom main-Branch dieses GitHub-Repositories. Die sichtbare Oberfläche wird nach der nächsten Anmeldung neu gestartet. Sicherheitsupdates werden zusätzlich über Debian unattended-upgrades geprüft. Ein erforderlicher Neustart erfolgt nicht ohne den Benutzer.
 
-Der GitHub-Actions-Workflow baut bei Änderungen und montags ein aktuelles OVA-Artefakt. GitHub-Artefakte verfallen nach 14 Tagen. Änderungen an der Tomaten-Oberfläche in einer neuen OVA werden nicht automatisch in eine bereits importierte VM übertragen; für diese Version muss die neue OVA importiert werden. Eine vorhandene VM und ihre Daten werden nicht überschrieben.
+Der GitHub-Actions-Workflow baut bei Änderungen und montags ein aktuelles OVA-Artefakt. GitHub-Artefakte verfallen nach 14 Tagen. Bereits importierte VMs können den kleinen Quellcode-Updater einmalig aktivieren. Dazu in der **laufenden Tomaten-OS-VM** ein Terminal öffnen und ausführen:
+
+```sh
+curl -fsSLo /tmp/tomaten-bootstrap.sh https://raw.githubusercontent.com/MaxMustermann67/Tomato-OS/main/scripts/bootstrap-in-place.sh
+sudo bash /tmp/tomaten-bootstrap.sh
+```
+
+Danach einmal abmelden oder neu starten. Für spätere Änderungen an der Oberfläche ist kein erneuter OVA-Import nötig. Benutzerkonten und persönliche Dateien bleiben erhalten. Der Updater führt Code aus dem main-Branch dieses Repositories mit Root-Rechten aus; nur dessen Besitzer sollte dort Änderungen freigeben.
 
 ## Lokal bauen
 
